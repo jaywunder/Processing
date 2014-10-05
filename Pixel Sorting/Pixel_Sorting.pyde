@@ -1,6 +1,3 @@
-"""What I'm doing is getting the 16 pixels above and below and averageing them
-together to get some kind the averaging the y axis pixels then averageing those
-two numbers and that's the new pixel color"""
 from random import randint
 from time import sleep
 
@@ -23,6 +20,7 @@ def getLoc(_x, _y):
     return _x+(_y*(img.width-1))
     
 def average(lst):
+    """Get the average of a list or tuple"""
     if len(lst) != 0:
         #avg = total / (len(lst))
         avg = int(sum(lst))/int(len(lst))
@@ -32,7 +30,7 @@ def average(lst):
         return int(avg)
     
 def _draw():
-    """Rename to 'draw' to use"""
+    """Rename to 'draw' to blur image"""
     loadPixels()
     pixCopy = pixels
     for pix in range(len(pixels)-int(img.width/8)):
@@ -41,7 +39,7 @@ def _draw():
     saveFrame("output-##")
     
 def glitchWholePicture():
-    """Blurs the whole picture"""
+    """Glitches the whole picture"""
     loadPixels()
     divnum = 16
     for x in range(img.width):
@@ -101,6 +99,7 @@ def blurImage():
     print("ending")
     
 def differentColors(minY,maxY,mode,threshold):
+    """Not sure how to explain it"""
     loadPixels()
     print("starting")
     threshDict = {.25:-2500000,
