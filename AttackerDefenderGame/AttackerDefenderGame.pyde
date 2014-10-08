@@ -29,16 +29,20 @@ def getLoc(x,y):
     return x + (y*(width))
 
 def draw():
+    print(attackers)
     background(0)
     defender.update()
-    defender.drawLines()
+    deadList = [1,2,3]
     for attacker in attackers:
-        attacker.update()
+        if attacker.alive == True:
+            attacker.update()
         if attacker.alive == False:
-            #attackers.remove(attacker)
-            del attacker
+            attackers.remove(attacker)
+            #attacker.othersList = deadList
+            #attacker = None
+            print "Dead:",attacker
             
-        #spawnAttackers(1)
+            
             
     if len(attackers) < ATTACKERAMOUNT:
         attackers.append(Attacker(15, defender, randint(0,width), HEADERHEIGHT/2, (255,170,170)))

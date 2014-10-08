@@ -8,7 +8,7 @@ class Attacker(object):
         self.x = x
         self.y = y
         self.bgcolor = bgcolor
-        self.othersList = othersList
+        self.othersList = []
         
         self.vx = 0
         self.vy = .5
