@@ -1,9 +1,8 @@
 
 
 class Laser(object):
-    def __init__(self,defx,defy,defr,angle):
-        #self.defx = defx
-        #self.defy = defy
+    
+    def __init__(self, defx, defy, defr, angle):
         self.angle = angle
         
         self.x0 = defx + defr * cos(angle)

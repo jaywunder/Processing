@@ -14,11 +14,11 @@ def setup():
     #stroke(255, 102, 0)
     background(255)
     ellipseMode(RADIUS)
-    spawnAttackers()
+    spawnAttackers(ATTACKERAMOUNT)
     strokeWeight(3)
     
-def spawnAttackers():
-    for a in range(ATTACKERAMOUNT):
+def spawnAttackers(amount):
+    for a in range(amount):
         attackers.append(Attacker(15, defender, randint(0,width), HEADERHEIGHT/2, (255,170,170)))
         
     for a in attackers:
@@ -34,7 +34,12 @@ def draw():
     defender.drawLines()
     for attacker in attackers:
         attacker.update()
-        attacker.collide()
+        if attacker.alive == False:
+            #attackers.remove(attacker)
+            del attacker
+            
+        #spawnAttackers(1)
+            
     if len(attackers) < ATTACKERAMOUNT:
         attackers.append(Attacker(15, defender, randint(0,width), HEADERHEIGHT/2, (255,170,170)))
 

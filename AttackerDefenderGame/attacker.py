@@ -9,43 +9,45 @@ class Attacker(object):
         self.y = y
         self.bgcolor = bgcolor
         self.othersList = othersList
-        if othersList != None:
-            self.othersList.append(self.defender)
         
         self.vx = 0
         self.vy = .5
         self.accl = .2
         self.spring = .9
         self.friction = .6
+        self.alive = True
     
     def update(self):
-        self.defy = self.defender.y
-        self.defx = self.defender.x
-        stroke(randint(self.bgcolor[0]-50,self.bgcolor[0]+50),
-               randint(self.bgcolor[1]-50,self.bgcolor[1]+50),
-               randint(self.bgcolor[2]-50,self.bgcolor[2]+50))
-        
-        self.x += self.vx
-        self.y += self.vy
-        
-        if self.defender.x < self.x:
-            self.vx -= self.accl 
-        elif self.defender.x > self.x:
-            self.vx += self.accl 
-        if self.defender.y < self.y:
-            self.vy -= self.accl 
-        elif self.defender.y > self.y:
-            self.vy += self.accl 
+        if self.alive:
+            self.defy = self.defender.y
+            self.defx = self.defender.x
+            stroke(randint(self.bgcolor[0]-50,self.bgcolor[0]+50),
+                randint(self.bgcolor[1]-50,self.bgcolor[1]+50),
+                randint(self.bgcolor[2]-50,self.bgcolor[2]+50))
             
-        #ellipse(self.x,self.y,self.radius,self.radius)
-        triangle((self.x),(self.y)+(self.radius),
-                (self.x)-(self.radius),(self.y)-(self.radius),
-                (self.x)+(self.radius),(self.y)-(self.radius))
-        
-        if self.vx >= VELOCITYMAX:
-            self.vx = VELOCITYMAX
-        if self.vy >= VELOCITYMAX:
-            self.vy = VELOCITYMAX
+            self.x += self.vx
+            self.y += self.vy
+            
+            if self.defender.x < self.x:
+                self.vx -= self.accl 
+            elif self.defender.x > self.x:
+                self.vx += self.accl 
+            if self.defender.y < self.y:
+                self.vy -= self.accl 
+            elif self.defender.y > self.y:
+                self.vy += self.accl 
+                
+            #ellipse(self.x,self.y,self.radius,self.radius)
+            triangle((self.x),(self.y)+(self.radius),
+                    (self.x)-(self.radius),(self.y)-(self.radius),
+                    (self.x)+(self.radius),(self.y)-(self.radius))
+            
+            if self.vx >= VELOCITYMAX:
+                self.vx = VELOCITYMAX
+            if self.vy >= VELOCITYMAX:
+                self.vy = VELOCITYMAX
+                
+            self.collide()
     
     def collide(self):
         dx = self.defender.x - self.x
@@ -85,7 +87,8 @@ class Attacker(object):
             minDist = self.radius + 15
             if dist(laser.x0, laser.y0, self.x, self.y) < minDist:
                 if self.othersList != None:
-                    self.othersList.remove(self)
+                    self.alive = False
+                    #self.othersList.remove(self)
                 
                 
         if self.x + self.radius > width:

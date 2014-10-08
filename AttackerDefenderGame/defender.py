@@ -2,7 +2,7 @@ from random import randint
 from laser import Laser
 
 class Defender(object):
-    def __init__(self,radius,x,y,bgcolor):
+    def __init__(self, radius, x, y, bgcolor):
         self.radius = radius
         self.x = x
         self.y = y
@@ -74,6 +74,7 @@ class Defender(object):
     def fireLasers(self):
         angleList = (0,PI/2,PI,(3*PI)/2)
         self.lasers = []
+        
         for i in range(4):
             self.lasers.append(Laser(self.x,self.y,self.radius,self.laserAngle+angleList[i]))
             
