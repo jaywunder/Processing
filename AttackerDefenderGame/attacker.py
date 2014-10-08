@@ -1,6 +1,6 @@
 from random import randint
 
-VELOCITYMAX = 1.5
+VELOCITYMAX = 7
 class Attacker(object):
     def __init__(self,radius,defender,x,y,bgcolor,othersList=None):
         self.radius = radius
@@ -14,8 +14,8 @@ class Attacker(object):
         
         self.vx = 0
         self.vy = .5
-        self.accl = .5
-        self.spring = 1
+        self.accl = .2
+        self.spring = .9
         self.friction = .6
     
     def update(self):
@@ -42,14 +42,27 @@ class Attacker(object):
                 (self.x)-(self.radius),(self.y)-(self.radius),
                 (self.x)+(self.radius),(self.y)-(self.radius))
         
-        if self.vx > VELOCITYMAX:
+        if self.vx >= VELOCITYMAX:
             self.vx = VELOCITYMAX
-        if self.vy > VELOCITYMAX:
+        if self.vy >= VELOCITYMAX:
             self.vy = VELOCITYMAX
     
     def collide(self):
+        dx = self.defender.x - self.x
+        dy = self.defender.y - self.y
+        minDist = self.defender.radius + self.radius
+        if dist(self.defender.x, self.defender.y, self.x, self.y) < minDist:
+            angle = atan2(dy, dx)
+            
+            targetX = self.x + cos(angle) * minDist
+            targetY = self.y + sin(angle) * minDist
+            
+            ax = (targetX - self.defender.x) * self.spring
+            ay = (targetY - self.defender.y) * self.spring
+            self.vx -= ax
+            self.vy -= ay
+        
         for other in self.othersList:
-            #other = self.defender
             dx = other.x - self.x
             dy = other.y - self.y
             minDist = other.radius + self.radius
@@ -63,6 +76,17 @@ class Attacker(object):
                 ay = (targetY - other.y) * self.spring
                 self.vx -= ax
                 self.vy -= ay
+                other.vx += ax
+                other.vy += ay
+
+        for laser in self.defender.lasers:
+            dx = laser.x0 - self.x
+            dy = laser.y0 - self.y
+            minDist = self.radius + 15
+            if dist(laser.x0, laser.y0, self.x, self.y) < minDist:
+                if self.othersList != None:
+                    self.othersList.remove(self)
+                
                 
         if self.x + self.radius > width:
             self.x = width - self.radius

@@ -37,3 +37,5 @@ def draw():
         attacker.collide()
     if len(attackers) < ATTACKERAMOUNT:
         attackers.append(Attacker(15, defender, randint(0,width), HEADERHEIGHT/2, (255,170,170)))
+
+
