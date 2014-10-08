@@ -11,26 +11,29 @@ ACCLMAX = 1.5
 def setup():
     size(640,640)
     noFill()
-    stroke(255, 102, 0)
-    line(85, 20, 10, 10)
-    line(90, 90, 15, 80)
-    stroke(0, 0, 0)
-    bezier(85, 20, 10, 10, 90, 90, 15, 80)
-    background(200)
+    #stroke(255, 102, 0)
+    background(255)
     ellipseMode(RADIUS)
     spawnAttackers()
+    strokeWeight(3)
     
 def spawnAttackers():
     for a in range(ATTACKERAMOUNT):
         attackers.append(Attacker(15, defender, randint(0,width), HEADERHEIGHT/2, (255,170,170)))
+        
+    for a in attackers:
+        a.othersList = attackers
+        #a.othersList.append(defender)
     
 def getLoc(x,y):
     return x + (y*(width))
 
 def draw():
-    background(200)
-    line(0,HEADERHEIGHT,width,HEADERHEIGHT)
+    background(0)
     defender.update()
+    defender.drawLines()
     for attacker in attackers:
         attacker.update()
         attacker.collide()
+    if len(attackers) < ATTACKERAMOUNT:
+        attackers.append(Attacker(15, defender, randint(0,width), HEADERHEIGHT/2, (255,170,170)))
